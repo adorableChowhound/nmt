@@ -1,8 +1,101 @@
 # NMT 自己的注释
 
-tensorflow/nmt项目的代码结构没有那么清晰，[重构之后的代码](https://github.com/naivenlp/naivenmt-legacy)会帮助理解。
+在源代码上添加了中文注释，注释基本参考[Tensorflow nmt源码解析](https://github.com/luozhouyang/csdn-blogs/blob/master/tensorflow_nmt/tensorflow_nmt_index.md)。
 
-注释基本参照[Tensorflow nmt源码解析](https://github.com/luozhouyang/csdn-blogs/blob/master/tensorflow_nmt/tensorflow_nmt_index.md)，只有部分注释，其余部分有时间再慢慢看。
+tensorflow/nmt项目的代码结构不太清晰，[重构之后的代码](https://github.com/naivenlp/naivenmt-legacy)会帮助理解。
+
+训练数据采用了我们自己收集的平行语料库（中日为22万，中韩为39万），训练好的模型分别保存在model中对应的文件夹里（best-bleu：日中为19.9）。
+
+- [训练自己的模型](##训练自己的模型)
+- [直接使用我的模型](##直接使用我的模型)
+- [原Readme.md](#Neural Machine Translation (seq2seq) Tutorial)
+
+## 训练自己的模型
+
+（以日语到汉语为例，训练用的数据保存在data/jp_zh_data）
+
+git clone 项目：
+
+```
+https://github.com/adorableChowhound/nmt.git
+```
+
+进入项目：
+
+```
+cd nmt
+```
+
+新建用于存储模型的文件夹：
+
+```
+mkdir model/jp2zh_model
+```
+
+设置合适的参数，进行训练：
+
+```
+python -m nmt.nmt \
+    --attention=scaled_luong \
+    --src=jp --tgt=zh \
+    --vocab_prefix=data/jp_zh_data/vocab  \
+    --train_prefix=data/jp_zh_data/train \
+    --dev_prefix=data/jp_zh_data/dev  \
+    --test_prefix=data/jp_zh_data/test \
+    --out_dir=model/jp2zh_model \
+    --num_train_steps=17000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+		--metrics=bleu 
+```
+
+参数的说明可以参考nmt/nmt/nmt.py中add_arguments()的注释
+
+经过漫长的训练，运行结束后可以在model/jp2zh_model查看结果
+
+## 直接使用我的模型
+
+（以日语到汉语为例，训练好的模型在model/jp2zh_model）
+
+git clone 项目：
+
+```
+https://github.com/adorableChowhound/nmt.git
+```
+
+进入项目：
+
+```
+cd nmt
+```
+
+把需要翻译的句子输入到model/jp2zh_model/my_infer_file.jp：
+
+```
+cat > model/jp2zh_model/my_infer_file.jp
+```
+
+利用训练好的模型进行翻译：
+
+```
+python -m nmt.nmt \
+
+  --out_dir=model/jp2zh_model \
+
+  --inference_input_file=model/jp2zh_model/my_infer_file.jp \
+
+  --inference_output_file=model/jp2zh_model/output_infer.zh
+```
+
+此时，翻译好的句子就在model/jp2zh_model/output_infer.zh了
+
+我们可以把它输出查看：
+
+```
+cat model/jp2zh_model/output_infer.zh
+```
 
 
 
