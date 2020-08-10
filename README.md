@@ -6,58 +6,14 @@ tensorflow/nmt项目的代码结构不太清晰，[重构之后的代码](https:
 
 训练数据采用了我们自己收集的平行语料库（中日为22万，中韩为39万），训练好的模型分别保存在model中对应的文件夹里（best-bleu：日中为19.9）。
 
-- [训练自己的模型](##训练自己的模型)
-- [直接使用我的模型](##直接使用我的模型)
-- [原Readme.md](#Neural Machine Translation (seq2seq) Tutorial)
-
-## 训练自己的模型
-
-（以日语到汉语为例，训练用的数据保存在data/jp_zh_data）
-
-git clone 项目：
-
-```
-https://github.com/adorableChowhound/nmt.git
-```
-
-进入项目：
-
-```
-cd nmt
-```
-
-新建用于存储模型的文件夹：
-
-```
-mkdir model/jp2zh_model
-```
-
-设置合适的参数，进行训练：
-
-```
-python -m nmt.nmt \
-    --attention=scaled_luong \
-    --src=jp --tgt=zh \
-    --vocab_prefix=data/jp_zh_data/vocab  \
-    --train_prefix=data/jp_zh_data/train \
-    --dev_prefix=data/jp_zh_data/dev  \
-    --test_prefix=data/jp_zh_data/test \
-    --out_dir=model/jp2zh_model \
-    --num_train_steps=17000 \
-    --steps_per_stats=100 \
-    --num_layers=2 \
-    --num_units=128 \
-    --dropout=0.2 \
-		--metrics=bleu 
-```
-
-参数的说明可以参考nmt/nmt/nmt.py中add_arguments()的注释
-
-经过漫长的训练，运行结束后可以在model/jp2zh_model查看结果
+- [直接使用我的模型](## 直接使用我的模型)
+- [训练自己的模型](## 训练自己的模型)
+- [训练数据的准备](## 训练数据的准备)
+- [原Readme.md](# Neural Machine Translation (seq2seq) Tutorial)
 
 ## 直接使用我的模型
 
-（以日语到汉语为例，训练好的模型在model/jp2zh_model）
+（以日语到中文为例，训练好的模型在model/jp2zh_model）
 
 git clone 项目：
 
@@ -96,6 +52,63 @@ python -m nmt.nmt \
 ```
 cat model/jp2zh_model/output_infer.zh
 ```
+
+## 训练自己的模型
+
+（以日语到中文为例，训练用的数据保存在data/jp_zh_data）
+
+git clone 项目：
+
+```
+https://github.com/adorableChowhound/nmt.git
+```
+
+进入项目：
+
+```
+cd nmt
+```
+
+新建用于存储模型的文件夹：
+
+```
+mkdir model/jp2zh_model
+```
+
+设置合适的参数，进行训练：
+
+```
+python -m nmt.nmt \
+    --attention=scaled_luong \
+    --src=jp --tgt=zh \
+    --vocab_prefix=data/jp_zh_data/vocab  \
+    --train_prefix=data/jp_zh_data/train \
+    --dev_prefix=data/jp_zh_data/dev  \
+    --test_prefix=data/jp_zh_data/test \
+    --out_dir=model/jp2zh_model \
+    --num_train_steps=17000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu 
+```
+
+参数的说明可以参考nmt/nmt/nmt.py中add_arguments()的注释
+
+经过漫长的训练，运行结束后可以在model/jp2zh_model查看结果
+
+## 训练数据的准备
+
+这部分所有的代码可以在data/data_processing查看
+
+#### 针对app输入输出的处理：
+
+我们需要用处理训练模型用的数据同样的方式去处理输入输出的句子
+
+- 对日语到中文的翻译，我们采用的分词方式是日语用MeCab，中文用字符：
+  - 对输入的句子（日语）进行分词：app/jp_input.py
+  - 对输出的句子（中文）进行合并：app/zh_output.py
 
 
 
