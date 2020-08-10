@@ -40,11 +40,8 @@ cat > model/jp2zh_model/my_infer_file.jp
 
 ```
 python -m nmt.nmt \
-
   --out_dir=model/jp2zh_model \
-
   --inference_input_file=model/jp2zh_model/my_infer_file.jp \
-
   --inference_output_file=model/jp2zh_model/output_infer.zh
 ```
 
