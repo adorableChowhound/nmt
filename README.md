@@ -21,7 +21,7 @@ tensorflow/nmt项目的代码结构不太清晰，[重构之后的代码](https:
 git clone 项目：
 
 ```
-https://github.com/adorableChowhound/nmt.git
+git clone https://github.com/adorableChowhound/nmt.git
 ```
 
 进入项目：
@@ -63,7 +63,7 @@ cat model/jp2zh_model/output_infer.zh
 git clone 项目：
 
 ```
-https://github.com/adorableChowhound/nmt.git
+git clone https://github.com/adorableChowhound/nmt.git
 ```
 
 进入项目：
@@ -104,6 +104,8 @@ python -m nmt.nmt \
 ## 训练数据的准备
 
 这部分所有的代码可以在data/data_processing查看
+
+这里不提供数据，请使用自己的数据，并根据自己的需求修改代码
 
 #### 针对app输入输出的处理：
 

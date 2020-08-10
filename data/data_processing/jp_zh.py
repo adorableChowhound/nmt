@@ -107,7 +107,8 @@ def getData(path, lang):
 
 
 def deal(lang):
-    ROOT_PATH = "../jp_zh_data"
+    # 可能需要新建这个文件夹，不然会报错
+    ROOT_PATH = "../jp_zh_data/"
     getData(ROOT_PATH, lang)
 
     # 生成词汇表

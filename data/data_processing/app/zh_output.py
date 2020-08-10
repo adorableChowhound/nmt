@@ -10,26 +10,7 @@ def clearBlankSpace():
     eng_and_num = 'abcdefghijklmnopqrstuvwxyz0123456789'
     try:
         for line in file1.readlines():
-            output = ''
-            buffer = ''
-            for s in line:
-                if s in eng_and_num or s in eng_and_num.upper():
-                    buffer += s
-                else:
-                    if buffer:
-                        output += buffer
-                        output += " "
-                    buffer = ''
-                    if s == '\n':
-                        output += s
-                    else:
-                        output += s
-                        output += " "
-
-            if buffer:
-                output += buffer
-
-            newline = output
+            newline = line.replace(" ", "")
             file2.write(newline)
     finally:
         file1.close()
