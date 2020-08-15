@@ -100,6 +100,8 @@ python -m nmt.nmt \
 
 参数的说明可以参考nmt/nmt/nmt.py中add_arguments()的注释
 
+也可以使用nmt_main.py作为程序入口
+
 经过漫长的训练，运行结束后可以在model/jp2zh_model查看结果
 
 ## 训练数据的准备
